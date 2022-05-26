@@ -4,12 +4,16 @@ const passport = require("passport");
 const passportSetup = require("./config/passport-setup");
 const port = 4000;
 const session = require('express-session');
+const clientSecret = require("../../config.json");
 
 app.use(passport.initialize());
 
 app.use(session({
-    secret: "_oPKtPwlOQt2qDvtloeWfjmm15Dm2o0X"
-}))
+    secret: clientSecret,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+  }))
 
 app.get("/auth/discord", passport.authenticate("discord", { permissions: 8 }));
 app.get("/auth/discord/callback", passport.authenticate('discord', {
